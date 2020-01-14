@@ -86,18 +86,24 @@ end
 # # => "run Hoge"
 
 class TryOver3::A4
-  def self.runners=(arr)
-    @arr = arr
+  def self.runners=(runners)
+    @runners = runners
+  end
+
+  def self.runners
+    @runners
   end
 
   def self.const_missing(name)
-    super unless @arr.include?(name)
-    self
-  end
+    return super unless self.runners.include?(name)
 
-  def self.method_missing(name, *args)
-    super unless name == :run
-    "run #{@arr.first}"
+    klass = Class.new do |c|
+      c.define_singleton_method "run" do
+        "run #{name}"
+      end
+    end
+
+    const_set(name, klass)
   end
 end
 
