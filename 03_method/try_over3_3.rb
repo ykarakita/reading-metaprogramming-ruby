@@ -97,13 +97,11 @@ class TryOver3::A4
   def self.const_missing(name)
     return super unless self.runners.include?(name)
 
-    klass = Class.new do |c|
+    Class.new do |c|
       c.define_singleton_method "run" do
         "run #{name}"
       end
     end
-
-    const_set(name, klass)
   end
 end
 
