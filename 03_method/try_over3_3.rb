@@ -33,8 +33,10 @@ class TryOver3::A2Proxy
     @source = source
   end
 
-  def respond_to_missing?(name, *args)
-    @source.respond_to?(name, *args)
+  private
+
+  def respond_to_missing?(name, include_private = false)
+    @source.respond_to?(name)
   end
 
   def method_missing(name, *args)
